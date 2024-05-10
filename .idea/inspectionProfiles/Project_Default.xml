@@ -1,0 +1,24 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredNames">
+        <list>
+          <option value="str" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="users.forms.Username" />
+          <option value="users.models.tasks" />
+          <option value="users.models.tasksproject" />
+          <option value="users.models.taskproject" />
+          <option value="users.models.AuthUser" />
+          <option value="users.views.mapa" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
