@@ -1,0 +1,82 @@
+<!--#вывол-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Построение графика по загруженному файлу</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--  <input type="file" id="fileInput">-->
+<!--  <button onclick="processFile()">Обработать файл и построить график</button>-->
+<!--  <div id="plotly-chart"></div>-->
+
+<!--  <script>-->
+<!--    async function processFile() {-->
+<!--      const fileInput = document.getElementById('fileInput');-->
+<!--      const file = fileInput.files[0];-->
+
+<!--      const formData = new FormData();-->
+<!--      formData.append('file', file);-->
+
+<!--      const response = await fetch('/file/upload-file', {-->
+<!--        method: 'POST',-->
+<!--        body: formData-->
+<!--      });-->
+
+<!--      const data = await response.json();-->
+<!--      Plotly.newPlot('plotly-chart', data.data, data.layout);-->
+<!--    }-->
+<!--  </script>-->
+<!--  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Построение графика по загруженному файлу</title>
+</head>
+<body>
+  <input type="file" id="fileInput">
+  <button onclick="processFile()">Обработать файл и построить график</button>
+  <button onclick="Faa()">Анализ</button>
+  <div id="plotly-chart"></div>
+  <div id="plotly-chart-2"></div>
+
+  <script>
+    async function processFile() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/file/upload-file', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      Plotly.newPlot('plotly-chart', JSON.parse(data), {}, {responsive: true});
+    }
+    async function Faa() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/file/analiz-file', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      Plotly.newPlot('plotly-chart-2', JSON.parse(data), {}, {responsive: true});
+    }
+  </script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
