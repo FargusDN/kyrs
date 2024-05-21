@@ -1,0 +1,156 @@
+<!--#вывол-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Построение графика по загруженному файлу</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--  <input type="file" id="fileInput">-->
+<!--  <button onclick="processFile()">Обработать файл и построить график</button>-->
+<!--  <div id="plotly-chart"></div>-->
+
+<!--  <script>-->
+<!--    async function processFile() {-->
+<!--      const fileInput = document.getElementById('fileInput');-->
+<!--      const file = fileInput.files[0];-->
+
+<!--      const formData = new FormData();-->
+<!--      formData.append('file', file);-->
+
+<!--      const response = await fetch('/file/upload-file', {-->
+<!--        method: 'POST',-->
+<!--        body: formData-->
+<!--      });-->
+
+<!--      const data = await response.json();-->
+<!--      Plotly.newPlot('plotly-chart', data.data, data.layout);-->
+<!--    }-->
+<!--  </script>-->
+<!--  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Построение графика по загруженному файлу</title>
+</head>
+<body>
+ <div>
+ <input type="file" id="fileInput" onchange="checkFile(this)">
+ <button onclick="processFile()">Обработать файл и построить график</button>
+ <button onclick="Faa()">Анализ</button>
+ <input type="number" id="numericInput">
+ </div>
+
+  <div id="plotly-chart"></div>
+  <div id="plotly-chart-2"></div>
+<!--  <form>-->
+<!--  <label for="numberInput">Введите числовое значение:</label>-->
+<!--  <input type="number" id="numberInput" name="numberInput">-->
+<!--  <input type="submit" value="Отправить">-->
+<!--  </form>-->
+  <script>
+    async function processFile() {
+
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+        if (!file) {
+    alert('Ошибка: Пожалуйста, выберете файл формата cvs или excel.');
+    return;
+  }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/file/upload-file', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      Plotly.newPlot('plotly-chart', JSON.parse(data), {}, {responsive: true});
+    }
+    async function Faa() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const numericInput = document.getElementById('numericInput').value;
+
+  // Проверяем условие, если numericInput меньше 1, показываем ошибку
+  if (numericInput < 1) {
+    alert('Ошибка: введите значение, меньше или равное 1');
+    return; // Прерываем выполнение функции
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('numericInput', numericInput);
+
+  const response = await fetch('/file/analiz-file', {
+    method: 'POST',
+    body: formData
+  });
+
+  const data = await response.json();
+  Plotly.newPlot('plotly-chart-2', JSON.parse(data), {}, {responsive: true});
+}
+
+    async function checkFile(input) {
+        const file = input.files[0];
+
+        // Проверяем тип файла
+        if (!file.type.match('text/csv') && !file.name.endsWith('.csv') &&
+            !file.type.match('application/vnd.ms-excel') && !file.name.endsWith('.xls') &&
+            !file.name.endsWith('.xlsx')) {
+            alert('Ошибка: Формат файла не поддерживается. Пожалуйста, выберите файл в формате CSV или Excel.');
+            input.value = ''; // Очищаем значение input, чтобы пользователь мог выбрать другой файл
+        }
+    }
+//    function submitForm() {
+//     const numberInputValue = document.getElementById('numberInput').value;
+//
+//     fetch('/file/period', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ numberInput: numberInputValue })
+//     })
+//     .then(response => {
+//         if (response.ok) {
+//             return response.json();
+//         }
+//         throw new Error('Network response was not ok.');
+//     })
+//     .then(data => {
+//         console.log(data);
+//         const savedNumber = data.received_value;
+//
+//         // Дополнительный запрос для получения сохраненного числа
+//         fetch('/get_saved_number')
+//         .then(response => response.json())
+//         .then(data => {
+//             const savedNumber = data.saved_number;
+//
+//             // Вызов функции AnalizRyada с сохраненным числом
+//             AnalizRyada(fileContent, fileType, savedNumber);
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//     });
+// }
+
+</script>
+
+  </script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
